@@ -27,7 +27,6 @@ export const trackReducer = (
   const payload = action.payload
   const trackIndex = state.trackIndex
   const tracklist = [...state.tracklist]
-  console.log(tracklist)
   switch (action.type) {
     case 'PLAY':
       if (typeof (payload) === 'boolean') {
@@ -65,7 +64,7 @@ export const trackReducer = (
 
     case 'REMOVE':
       if (payload < tracklist.length && payload >= 0) {
-        tracklist.splice(index, 1)
+        tracklist.splice(payload, 1)
         return {
           ...state,
           tracklist: tracklist
@@ -86,7 +85,7 @@ export interface ITrackContextProps {
 }
 
 export const initialTrackState: ITrackState = {
-  tracklist: [{ title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }],
+  tracklist: [{ title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }, { title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }, { title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }],
   trackIndex: 0,
   isPlaying: false,
   src: '/api/tracks/tracks/aphyyd/hello/Untitled.wav'

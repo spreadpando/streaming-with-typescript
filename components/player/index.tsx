@@ -4,12 +4,12 @@ import TrackInfo from './trackInfo'
 import styled from '@emotion/styled'
 import Timeline from './timeline'
 import Controls from './controls'
+import Tracklist from './tracklist'
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io'
 import { IoFingerPrint } from 'react-icons/io5'
 
 const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   position: absolute;
-  flex-direction: row;
   background-color: #fff;
   z-index: 2;
   bottom: 0;
@@ -21,7 +21,7 @@ const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   border-width: 2px 0 0 0;
   border-style: solid;
   border-color: #000;
-  ${({ isOpen, playlistLength }) => isOpen ? `height: calc(65px + 120px * ${playlistLength});` : 'height: 78px;'}
+  ${({ isOpen, playlistLength }) => isOpen ? `height: calc(65px + 40px * ${playlistLength});` : 'height: 78px;'}
 `
 
 const ToggleOpen = styled('span')`
@@ -167,6 +167,7 @@ const Player: React.FC = () => {
       <Timeline setScrubActive={setScrubActive}
         seek={seek}
         elapsed={elapsed}/>
+      <Tracklist tracklist={tc.trackState.tracklist}/>
     </Container>
   )
 }

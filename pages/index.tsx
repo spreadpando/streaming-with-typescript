@@ -2,14 +2,15 @@ import React from 'react'
 import { GetServerSideProps } from 'next'
 import s3ListObjects from '../util/s3listObjects'
 import S3 from '../util/s3Connect'
-import Tracklist from '../components/tracklist/'
+import Playlist from '../components/playlist'
 import Nav from '../components/nav/'
+import { ITrack } from '../contexts/track'
 
-const Catalog: React.FC = (props) => {
+const Catalog: React.FC = ({ tracklist }: ITrack[]) => {
   return (
     <>
       <Nav/>
-      <Tracklist tracklist={props.tracklist} />
+      <Playlist tracklist={tracklist} />
     </>
   )
 }

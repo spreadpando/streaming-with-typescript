@@ -10,8 +10,8 @@ position: relative;
 width: 100%;
 display: grid;
 pointer-events: none;
-grid-template-columns: 5% 37.5% 37.5% 10% 10% max-content;
-padding: 0px 5px;
+grid-template-columns: 5% 40% 40% 7.5% 7.5% max-content;
+padding: 0 24px;
 color: #000;
 span{
   align-self: center;
@@ -28,25 +28,22 @@ const Btn = styled('span')`
   }
 `
 
-const Track: React.FC<Itrack> = ({ track }) => {
+const Track: React.FC<ITrack> = ({ track, index, dragStart, dragEnter }) => {
   const trackContext = useContext(TrackContext)
 
   const handleSelect = (track): void => {
-    trackContext.trackDispatch({ type: 'PLAY', payload: track })
-  }
-
-  const queue = (track): void => {
-    trackContext.trackDispatch({ type: 'QUEUE', payload: track })
+    tc.trackDispatch({ type: 'QUEUE', payload: [track, tc.trackState.trackIndex] })
+    tc.trackDispatch({ type: 'PLAY', payload: true })
   }
 
   const remove = (track): void => {
-    trackContext.trackDispatch({ type: 'REMOVE', payload: track })
+    trackContext.trackDispatch({ type: 'REMOVE', payload: index })
   }
 
   return (
-    <ListItem>
-      <Btn onClick={() => queue(track)} title='queue'>
-        <GrDrag/>
+    <ListItem >
+      <Btn>
+        <GrDrag />
       </Btn>
       <span>{track.title}</span>
       <span>{track.artist}</span>

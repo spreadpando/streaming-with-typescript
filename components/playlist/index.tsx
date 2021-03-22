@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { ITrack } from '../contexts/track'
 import Track from './track'
 
-const TracklistFrame = styled('div')`
+const PlaylistFrame = styled('div')`
   position: absolute;
   bottom: 20vh;
   padding: 16px;
@@ -21,13 +21,13 @@ const TracklistFrame = styled('div')`
     margin: 0;
   }                  
 `
-interface ITracklistProps {
+interface IPlaylistProps {
   tracklist: ITrack[]
 }
 
-const Tracklist: React.FC<ITracklistProps> = ({ tracklist }) => {
+const Playlist: React.FC = ({ tracklist }: IPlaylistProps) => {
   return (
-    <TracklistFrame>
+    <PlaylistFrame>
       {tracklist.map((track, i: number) => {
         return (
           <div key={`track-${i}`}>
@@ -36,8 +36,8 @@ const Tracklist: React.FC<ITracklistProps> = ({ tracklist }) => {
           </div>
         )
       })}
-    </TracklistFrame>
+    </PlaylistFrame>
   )
 }
 
-export default Tracklist
+export default Playlist
