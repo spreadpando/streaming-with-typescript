@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import TrackContext, { ITrack } from '../../contexts/track'
 import { IoPlayCircleOutline, IoListCircleOutline } from 'react-icons/io5'
 
-const ListItem = styled('li')`
+const ListItem = styled('div')`
 position: relative;
 display: grid;
 grid-template-columns: 27% 27% 27% 10% 10% max-content;
@@ -25,14 +25,15 @@ const Btn = styled('span')`
 `
 
 const Track: React.FC<Itrack> = ({ track }) => {
-  const trackContext = useContext(TrackContext)
+  const tc = useContext(TrackContext)
 
   const handleSelect = (track): void => {
-    trackContext.trackDispatch({ type: 'PLAY', payload: track })
+    tc.trackDispatch({ type: 'QUEUE', payload: [track, tc.trackState.trackIndex] })
+    tc.trackDispatch({ type: 'PLAY', payload: true })
   }
 
   const queue = (track): void => {
-    trackContext.trackDispatch({ type: 'QUEUE', payload: track })
+    tc.trackDispatch({ type: 'QUEUE', payload: [track, tc.trackState.tracklist.length] })
   }
 
   return (

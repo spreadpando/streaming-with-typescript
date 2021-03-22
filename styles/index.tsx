@@ -3,6 +3,15 @@ import { css, Global } from '@emotion/react'
 export const globalStyles = (
   <Global
     styles={css`
+    * {
+      -ms-user-select:none;
+      -moz-user-select:none;
+      -webkit-user-select:none;
+      -webkit-touch-callout: none;
+      -khtml-user-select: none;
+       user-select:none;
+       box-sizing: border-box;
+    }
       html,
       body {
         padding: 0;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { createContext } from 'react'
 
 export interface ITrack {
@@ -8,14 +9,15 @@ export interface ITrack {
 }
 
 export interface ITrackActions {
-  type: 'PLAY' | 'SKIP' | 'BACK' | 'INSERT' | 'QUEUE' | 'REMOVE' | 'REPLACE'
-  payload?: ITrack | ITrack[] | boolean
+  type: 'PLAY' | 'SKIP' | 'QUEUE' | 'REMOVE' | 'REPLACE'
+  payload: boolean | number | [ITrack, number] | ITrack[]
 }
 
 export interface ITrackState {
   tracklist: ITrack[]
   trackIndex: number
   isPlaying: boolean
+  src: string
 }
 
 export const trackReducer = (
@@ -25,48 +27,54 @@ export const trackReducer = (
   const payload = action.payload
   const trackIndex = state.trackIndex
   const tracklist = [...state.tracklist]
+  console.log(tracklist)
   switch (action.type) {
     case 'PLAY':
-      console.log(typeof (payload))
       if (typeof (payload) === 'boolean') {
         return { ...state, isPlaying: payload }
-      } else {
-        tracklist.splice(trackIndex, 0, payload)
-        return { ...state, tracklist: tracklist, isPlaying: true }
       }
+      return state
+
     case 'SKIP':
-      if (trackIndex <= tracklist.length) {
-        return { ...state, trackIndex: trackIndex + 1 }
-      } else {
-        return state
-      }
-    case 'BACK':
-      if (trackIndex > 0) {
-        return { ...state, trackIndex: trackIndex - 1 }
-      } else {
-        return state
-      }
-    case 'INSERT':
-      tracklist.splice(trackIndex, 0, payload)
-      return { ...state, tracklist: tracklist }
-    case 'QUEUE':
-      if (!tracklist.includes(payload)) {
-        tracklist.push(payload)
-        return { ...state, tracklist: tracklist }
-      }
-      return state
-    case 'REMOVE':
-      if (tracklist.includes(payload)) {
-        const index = tracklist.indexOf(payload)
-        if (index > -1) {
-          tracklist.splice(index, 1)
+      if (payload < tracklist.length && payload >= 0) {
+        return {
+          ...state,
+          trackIndex: payload,
+          src: `/api/tracks/${tracklist[payload].apiKey}`
         }
-        return { ...state, tracklist: tracklist }
       }
       return state
+
+    case 'QUEUE':
+      // payload[0] = track; payload[1] = index
+      if (payload[1] === trackIndex) {
+        tracklist.splice(payload[1], 0, payload[0])
+        return {
+          ...state,
+          tracklist: tracklist,
+          src: `/api/tracks/${payload[0].apiKey}`
+        }
+      } else if (payload[1] <= tracklist.length && payload[1] >= 0) {
+        tracklist.splice(payload[1], 0, payload[0])
+        return {
+          ...state,
+          tracklist: tracklist
+        }
+      }
+      return state
+
+    case 'REMOVE':
+      if (payload < tracklist.length && payload >= 0) {
+        tracklist.splice(index, 1)
+        return {
+          ...state,
+          tracklist: tracklist
+        }
+      }
+      return state
+
     case 'REPLACE':
       return { ...state, tracklist: payload }
-
     default:
       return state
   }
@@ -78,9 +86,10 @@ export interface ITrackContextProps {
 }
 
 export const initialTrackState: ITrackState = {
-  tracklist: [{ title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }, { title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/raven.mp3' }, { title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/cat0007.WAV' }],
+  tracklist: [{ title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }],
   trackIndex: 0,
-  isPlaying: false
+  isPlaying: false,
+  src: '/api/tracks/tracks/aphyyd/hello/Untitled.wav'
 }
 
 const TrackContext = createContext<ITrackContextProps>({

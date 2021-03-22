@@ -7,7 +7,8 @@ module.exports = {
         vars: 'all',
         varsIgnorePattern: '[I]\\w+'
       }],
-    'no-void': 'off'
+    'no-void': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off'
   },
   parserOptions: {
     project: './tsconfig.json'

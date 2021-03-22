@@ -4,14 +4,13 @@ import TrackInfo from './trackInfo'
 import styled from '@emotion/styled'
 import Timeline from './timeline'
 import Controls from './controls'
-import Playlist from './playlist'
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io'
+import { IoFingerPrint } from 'react-icons/io5'
 
 const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   position: absolute;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   flex-direction: row;
   background-color: #fff;
   z-index: 2;
@@ -28,85 +27,115 @@ const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   border-width: 2px 0 0 0;
   border-style: solid;
   border-color: #000;
-  ${({ isOpen, playlistLength }) => isOpen ? `height: calc(65px + 30px * ${playlistLength.toString()});` : 'height: 68px;'}
+  ${({ isOpen, playlistLength }) => isOpen ? `height: calc(65px + 120px * ${playlistLength});` : 'height: 78px;'}
 `
 
 const ToggleOpen = styled('span')`
   position: absolute;
-  top:0;
+  top: 0;
   left: 48%;
   font-size: 16px;
-  padding: 15px 0 0 0;
+  padding: 5px;
 
 `
 
 const Player: React.FC = () => {
   const scrubArea = useRef<HTMLInputElement>(null)
-  const trackContext = useContext(TrackContext)
+  const tc = useContext(TrackContext)
   const [isOpen, setIsOpen] = useState(false)
-  const [duration, setDuration] = useState(0)
+  const [duration, setDuration] = useState(1)
   const [elapsed, setElapsed] = useState(0)
   const [playhead, setPlayhead] = useState('first')
   const [scrubActive, setScrubActive] = useState(false)
-  const [audio] = useState(
-    new Audio(`/api/tracks/${trackContext.trackState.tracklist[trackContext.trackState.trackIndex]?.apiKey}`)
-  )
+  const [audio] = useState(new Audio(tc.trackState.src))
 
-  // check if track is first or last
   useEffect(() => {
-    if (trackContext.trackState.trackIndex >= trackContext.trackState.tracklist.length - 1) {
-      setPlayhead('last')
-    } else if (trackContext.trackState.trackIndex === 0) {
-      setPlayhead('first')
-    } else { setPlayhead('middle') }
-  }, [trackContext.trackState.trackIndex])
+    console.log(tc.trackState.tracklist.length)
+    if (tc.trackState.tracklist.length > 1) {
+      if (tc.trackState.trackIndex >= tc.trackState.tracklist.length - 1) {
+        setPlayhead('last')
+      } else if (tc.trackState.trackIndex === 0) {
+        setPlayhead('first')
+      } else {
+        setPlayhead('middle')
+      }
+    } else {
+      setPlayhead('single')
+    }
+  }, [tc.trackState.trackIndex, tc.trackState.tracklist.length])
 
-  // play / pause audio
   useEffect(() => {
-    trackContext.trackState.isPlaying
+    tc.trackState.isPlaying
       ? void audio.play()
       : void audio.pause()
-  }, [trackContext.trackState.isPlaying])
+  }, [tc.trackState.isPlaying])
 
-  // update audio src
   useEffect(() => {
-    setElapsed(0)
-    audio.src = `/api/tracks/${trackContext.trackState.tracklist[trackContext.trackState.trackIndex]?.apiKey}`
-  }, [trackContext.trackState.tracklist, trackContext.trackState.trackIndex])
+    audio.src = tc.trackState.src
+    tc.trackState.isPlaying
+      ? void audio.play()
+      : void audio.pause()
+  }, [tc.trackState.src])
+  useEffect(() => {
+    const updateElapsed = (): void => {
+      const currentTime = audio.currentTime
+      const percentage = Math.round((currentTime / duration) * 100.0)
+      setElapsed(percentage)
+    }
 
-  // add listeners to update timeline css
-  useEffect(() => {
+    const updateDuration = (): void => {
+      const totalTime = audio.duration
+      setDuration(totalTime)
+    }
+
+    const handleEnd = (): void => {
+      if (playhead !== 'last' && playhead !== 'single') {
+        skip()
+      } else {
+        stop()
+      }
+    }
+
     audio.addEventListener('timeupdate', updateElapsed)
     audio.addEventListener('durationchange', updateDuration)
+    audio.addEventListener('ended', handleEnd)
+
     return () => {
       audio.removeEventListener('timeupdate', updateElapsed)
       audio.removeEventListener('durationchange', updateDuration)
+      audio.removeEventListener('ended', handleEnd)
     }
-  }, [])
+  })
 
-  const togglePlay = (): void => trackContext.trackDispatch(
-    { type: 'PLAY', payload: !trackContext.trackState.isPlaying }
+  const togglePlay = (): void => tc.trackDispatch(
+    { type: 'PLAY', payload: !tc.trackState.isPlaying }
   )
 
   const stop = (): void => {
-    trackContext.trackDispatch({ type: 'PLAY', payload: false })
-    setElapsed(0)
+    tc.trackDispatch({ type: 'PLAY', payload: false })
     audio.currentTime = 0
+    setElapsed(0)
   }
 
   const skip = (): void => {
-    if (trackContext.trackState.trackIndex < trackContext.trackState.tracklist.length - 1) {
+    if (playhead !== 'last') {
       setElapsed(0)
       audio.currentTime = 0
-      trackContext.trackDispatch({ type: 'SKIP', payload: null })
+      tc.trackDispatch({
+        type: 'SKIP',
+        payload: tc.trackState.trackIndex + 1
+      })
     }
   }
 
   const back = (): void => {
-    if (trackContext.trackState.trackIndex > 0) {
+    if (tc.trackState.trackIndex > 0) {
       setElapsed(0)
       audio.currentTime = 0
-      trackContext.trackDispatch({ type: 'BACK', payload: null })
+      tc.trackDispatch({
+        type: 'SKIP',
+        payload: tc.trackState.trackIndex - 1
+      })
     }
   }
 
@@ -119,23 +148,6 @@ const Player: React.FC = () => {
     }
   }
 
-  const updateElapsed = (): void => {
-    const currentTime = audio.currentTime
-    const percentage = (currentTime / duration) * 100
-    if (percentage >= 100) {
-      if (trackContext.trackState.trackIndex >= trackContext.trackState.tracklist.length - 1) {
-        trackContext.trackDispatch({ type: 'PLAY', payload: false })
-      }
-      setTimeout(skip, 1000)
-    }
-    setElapsed(percentage)
-  }
-
-  const updateDuration = (): void => {
-    const totalTime = audio.duration
-    setDuration(totalTime)
-  }
-
   return (
     <Container ref={scrubArea}
       onMouseUp={() => scrubActive
@@ -144,25 +156,23 @@ const Player: React.FC = () => {
       onMouseMove={(e) => seek(e, false)}
       onMouseLeave={() => setScrubActive(false)}
       isOpen={isOpen}
-      playlistLength={trackContext.trackState.tracklist.length}>
+      playlistLength={tc.trackState.tracklist.length}>
       <ToggleOpen onClick={() => setIsOpen(!isOpen)} >
         {isOpen ? <IoIosArrowDown/> : <IoIosArrowUp/>}
       </ToggleOpen>
       <TrackInfo
-        name={trackContext.trackState.tracklist[trackContext.trackState.trackIndex]?.title}
-        artist={trackContext.trackState.tracklist[trackContext.trackState.trackIndex]?.artist}
-        collection={trackContext.trackState.tracklist[trackContext.trackState.trackIndex]?.collection}/>
+        name={tc.trackState.tracklist[tc.trackState.trackIndex]?.title}
+        artist={tc.trackState.tracklist[tc.trackState.trackIndex]?.artist}
+        collection={tc.trackState.tracklist[tc.trackState.trackIndex]?.collection}/>
       <Controls back={back}
         skip={skip}
         togglePlay={togglePlay}
         stop={stop}
-        isPlaying={trackContext.trackState.isPlaying}
+        isPlaying={tc.trackState.isPlaying}
         playhead={playhead}/>
       <Timeline setScrubActive={setScrubActive}
         seek={seek}
         elapsed={elapsed}/>
-       <Playlist tracklist={trackContext.trackState.tracklist}/>
-
     </Container>
   )
 }

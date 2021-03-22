@@ -5,9 +5,11 @@ import { IoPlayCircleOutline, IoListCircleOutline } from 'react-icons/io5'
 import { GrDrag } from 'react-icons/gr'
 import { CgPlayListRemove } from 'react-icons/cg'
 
-const ListItem = styled('li')`
+const ListItem = styled('div')`
 position: relative;
+width: 100%;
 display: grid;
+pointer-events: none;
 grid-template-columns: 5% 37.5% 37.5% 10% 10% max-content;
 padding: 0px 5px;
 color: #000;
@@ -18,6 +20,7 @@ span{
 
 const Btn = styled('span')`
   font-size: 16px;
+  pointer-events: all;
   text-align: center;
   padding-bottom: 4px;
   svg {

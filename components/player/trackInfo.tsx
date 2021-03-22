@@ -2,10 +2,11 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 const Frame = styled('div')`
-  position: relative;
+  position: absolute;
+  left: 100px;
   display: inline-block;
   color: #000;
-  padding: 6px 0 6px 24px;
+  padding: 24px;
   border-radius: 0 5px 0 0;
   z-index: 3;
   p {

@@ -3,18 +3,18 @@ import styled from '@emotion/styled'
 import { IoPlayCircleOutline, IoPauseCircleOutline, IoStopCircleOutline, IoPlaySkipForwardCircleOutline, IoPlaySkipBackCircleOutline } from 'react-icons/io5'
 
 const Panel = styled('div')`
-  position: relative;
+  position: absolute;
   display: inline-block;
-  padding: 0 1rem;
+  padding: 36px 18px;
   z-index: 3;
   font-size: 22px;
 `
-const SkipButton = styled('span') <{ last: boolean }>`
-  ${({ last }) => last ? 'color:#ccc;' : 'color: #000;'}
+const SkipButton = styled('span') <{ enabled: boolean }>`
+  ${({ enabled }) => enabled ? 'color:#000;' : 'color: #ccc;'}
 `
 
-const BackButton = styled('span') <{ first: boolean }>`
-${({ first }) => first ? 'color:#ccc;' : 'color: #000;'}
+const BackButton = styled('span') <{ enabled: boolean }>`
+${({ enabled }) => enabled ? 'color:#000;' : 'color: #ccc;'}
 `
 
 const Control = styled('span')`
@@ -36,7 +36,7 @@ const Controls: React.FC<IControlsProps> = ({ back, skip, togglePlay, stop, isPl
         <BackButton
           id='app-rw-btn'
           onClick={back}
-          first={playhead === 'first'}>
+          enabled={playhead !== 'first' && playhead !== 'single'}>
           <IoPlaySkipBackCircleOutline />
         </BackButton>
         <Control
@@ -54,7 +54,7 @@ const Controls: React.FC<IControlsProps> = ({ back, skip, togglePlay, stop, isPl
         <SkipButton
           id='app-ff-btn'
           onClick={skip}
-          last={playhead === 'last'}
+          enabled={playhead !== 'last' && playhead !== 'single'}
         >
           <IoPlaySkipForwardCircleOutline />
         </SkipButton>

@@ -25,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): void => {
 
     // return error
     if (start >= fileSize) {
-      res.status(416).send(`Requested range not satisfiable\n ${start} >= ${fileSize.toString()}`)
+      res.status(416).send(`Requested range not satisfiable\n ${start} >= ${fileSize}`)
       return
     }
 
@@ -39,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse): void => {
     const chunksize = (end - start) + 1
     // set response headers
     const head = {
-      'Content-Range': `bytes ${start}-${end}/${fileSize.toString()}`,
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunksize,
       'Content-Type': 'audio/mp3'
