@@ -18,7 +18,7 @@ const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   max-height: 90%;
   overflow: hidden;
   transition: height 1s;
-  border-width: 2px 0 0 0;
+  border-width: 1px 0 0 0;
   border-style: solid;
   border-color: #000;
   ${({ isOpen, playlistLength }) => isOpen ? `height: calc(65px + 40px * ${playlistLength});` : 'height: 78px;'}

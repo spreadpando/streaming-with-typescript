@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import styled from '@emotion/styled'
-import Track from './trackAbrv'
-import TrackContext from '../../contexts/track'
-import ITrack from '../../contexts/track'
+import PlayItem from './playItem'
+import TrackContext, { ITrack } from '../../contexts/track'
 
 const Content = styled('ul')`
   position: absolute;
@@ -11,13 +10,15 @@ const Content = styled('ul')`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+  ::-webkit-scrollbar{ display: none }
+  scrollbar-width: none; 
   z-index: 4;
   li {
     display: flex;
   }
 `
 
-const Indicator = styled('div')`
+const Indicator = styled('div')<{active: boolean}>`
   position: absolute;
   border-radius: 5px;
   width: 10px;
@@ -40,18 +41,14 @@ const DragToReorderList: React.FC = ({ tracklist }: Track[]) => {
 
   const handleDragStart = (e, position) => {
     draggingItem.current = position
-    console.log(e.target.innerHTML)
   }
 
   const handleDragEnter = (e, position) => {
     dragOverItem.current = position
-    console.log(e.target.innerHTML)
     const listCopy = [...list]
-    console.log(draggingItem.current, dragOverItem.current)
     const draggingItemContent = listCopy[draggingItem.current]
     listCopy.splice(draggingItem.current, 1)
     listCopy.splice(dragOverItem.current, 0, draggingItemContent)
-
     draggingItem.current = dragOverItem.current
     dragOverItem.current = null
     setList(listCopy)
@@ -72,7 +69,7 @@ const DragToReorderList: React.FC = ({ tracklist }: Track[]) => {
               draggable
               >
               <Indicator active={tc.trackState.trackIndex === index} />
-              <Track track={track}
+              <PlayItem track={track}
               index={index} />
             </li>
             <hr/>

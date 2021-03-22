@@ -29,15 +29,15 @@ const Btn = styled('span')`
 `
 
 const Track: React.FC<ITrack> = ({ track, index, dragStart, dragEnter }) => {
-  const trackContext = useContext(TrackContext)
+  const tc = useContext(TrackContext)
 
-  const handleSelect = (track): void => {
-    tc.trackDispatch({ type: 'QUEUE', payload: [track, tc.trackState.trackIndex] })
+  const handleSelect = (): void => {
+    tc.trackDispatch({ type: 'SKIP', payload: index })
     tc.trackDispatch({ type: 'PLAY', payload: true })
   }
 
-  const remove = (track): void => {
-    trackContext.trackDispatch({ type: 'REMOVE', payload: index })
+  const remove = (): void => {
+    tc.trackDispatch({ type: 'REMOVE', payload: index })
   }
 
   return (
@@ -47,10 +47,10 @@ const Track: React.FC<ITrack> = ({ track, index, dragStart, dragEnter }) => {
       </Btn>
       <span>{track.title}</span>
       <span>{track.artist}</span>
-      <Btn onClick={() => handleSelect(track)} title='play'>
+      <Btn onClick={() => handleSelect()} title='play'>
         <IoPlayCircleOutline/>
       </Btn>
-      <Btn onClick={() => remove(track)} title='remove'>
+      <Btn onClick={() => remove()} title='remove'>
         <CgPlayListRemove />
       </Btn>
 
