@@ -1,5 +1,6 @@
 module.exports = {
-  extends: 'standard-with-typescript',
+  extends: ['eslint:recommended',
+    'plugin:react/recommended', 'standard-with-typescript'],
   rules: {
     '@typescript-eslint/no-unused-vars': [
       'error',

@@ -9,15 +9,9 @@ import { IoFingerPrint } from 'react-icons/io5'
 
 const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   position: absolute;
-  display: flex;
-  flex-wrap: wrap;
   flex-direction: row;
   background-color: #fff;
   z-index: 2;
-  justify-content: space-between;
-  @media(min-width: 600px){
-    justify-content: flex-start;
-  }
   bottom: 0;
   left: 0;
   width: 100%;
