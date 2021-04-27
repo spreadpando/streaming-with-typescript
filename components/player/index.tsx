@@ -11,6 +11,7 @@ import { IoFingerPrint } from 'react-icons/io5'
 const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   position: absolute;
   background-color: #fff;
+  box-shadow: 5px -2px 15px 15px #fff;
   z-index: 2;
   bottom: 0;
   left: 0;
@@ -21,6 +22,7 @@ const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   border-width: 1px 0 0 0;
   border-style: solid;
   border-color: #000;
+  box-shadow: 2px 0px 25px 5px #ccc;
   ${({ isOpen, playlistLength }) => isOpen ? `height: calc(65px + 40px * ${playlistLength});` : 'height: 78px;'}
 `
 
@@ -30,7 +32,7 @@ const ToggleOpen = styled('span')`
   left: 48%;
   font-size: 16px;
   padding: 5px;
-
+  z-index: 4;
 `
 
 const Player: React.FC = () => {
@@ -43,8 +45,8 @@ const Player: React.FC = () => {
   const [scrubActive, setScrubActive] = useState(false)
   const [audio] = useState(new Audio(tc.trackState.src))
 
+  // update playhead
   useEffect(() => {
-    console.log(tc.trackState.tracklist.length)
     if (tc.trackState.tracklist.length > 1) {
       if (tc.trackState.trackIndex >= tc.trackState.tracklist.length - 1) {
         setPlayhead('last')
@@ -58,35 +60,41 @@ const Player: React.FC = () => {
     }
   }, [tc.trackState.trackIndex, tc.trackState.tracklist.length])
 
+  // play/pause audio
   useEffect(() => {
     tc.trackState.isPlaying
       ? void audio.play()
       : void audio.pause()
   }, [tc.trackState.isPlaying])
 
+  // update audio.src
   useEffect(() => {
     audio.src = tc.trackState.src
     tc.trackState.isPlaying
       ? void audio.play()
       : void audio.pause()
   }, [tc.trackState.src])
+
   useEffect(() => {
+    // update elapsed
     const updateElapsed = (): void => {
       const currentTime = audio.currentTime
       const percentage = Math.round((currentTime / duration) * 100.0)
       setElapsed(percentage)
     }
 
+    // update duration
     const updateDuration = (): void => {
       const totalTime = audio.duration
       setDuration(totalTime)
     }
-
+    // handle audio ended
     const handleEnd = (): void => {
       if (playhead !== 'last' && playhead !== 'single') {
         skip()
       } else {
-        stop()
+        audio.currentTime = 0
+        setElapsed(0)
       }
     }
 
@@ -105,12 +113,6 @@ const Player: React.FC = () => {
     { type: 'PLAY', payload: !tc.trackState.isPlaying }
   )
 
-  const stop = (): void => {
-    tc.trackDispatch({ type: 'PLAY', payload: false })
-    audio.currentTime = 0
-    setElapsed(0)
-  }
-
   const skip = (): void => {
     if (playhead !== 'last') {
       setElapsed(0)
@@ -123,13 +125,19 @@ const Player: React.FC = () => {
   }
 
   const back = (): void => {
-    if (tc.trackState.trackIndex > 0) {
-      setElapsed(0)
+    console.log(audio.currentTime)
+    if (audio.currentTime > 1) {
       audio.currentTime = 0
-      tc.trackDispatch({
-        type: 'SKIP',
-        payload: tc.trackState.trackIndex - 1
-      })
+      setElapsed(0)
+    } else {
+      if (tc.trackState.trackIndex > 0) {
+        setElapsed(0)
+        audio.currentTime = 0
+        tc.trackDispatch({
+          type: 'SKIP',
+          payload: tc.trackState.trackIndex - 1
+        })
+      }
     }
   }
 
@@ -161,7 +169,6 @@ const Player: React.FC = () => {
       <Controls back={back}
         skip={skip}
         togglePlay={togglePlay}
-        stop={stop}
         isPlaying={tc.trackState.isPlaying}
         playhead={playhead}/>
       <Timeline setScrubActive={setScrubActive}

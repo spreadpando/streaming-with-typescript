@@ -14,7 +14,7 @@ export const globalStyles = (
        box-sizing: border-box;
     }
       html,
-      body {
+      body, #__next {
         padding: 0;
         margin: 0;
         background: #fff;
@@ -25,12 +25,15 @@ export const globalStyles = (
         font-family: Courier New, monospace;
         font-size: 12px;
       }
-      ul {
-        list-style: none;
+      ul, ol {
         padding: 0;
       }
       h1 {
         font-size: 2em;
+      }
+      a {
+        color: inherit;
+        font-weight: 600;
       }
     `}
   />

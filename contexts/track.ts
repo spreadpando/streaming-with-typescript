@@ -64,10 +64,20 @@ export const trackReducer = (
 
     case 'REMOVE':
       if (payload < tracklist.length && payload >= 0) {
-        tracklist.splice(payload, 1)
-        return {
-          ...state,
-          tracklist: tracklist
+        if (payload === trackIndex) {
+          tracklist.splice(payload, 1)
+          return {
+            ...state,
+            trackIndex: trackIndex - 1,
+            tracklist: tracklist,
+            src: `/api/tracks/${tracklist[trackIndex - 1].apiKey}`
+          }
+        } else {
+          tracklist.splice(payload, 1)
+          return {
+            ...state,
+            tracklist: tracklist
+          }
         }
       }
       return state
@@ -85,7 +95,7 @@ export interface ITrackContextProps {
 }
 
 export const initialTrackState: ITrackState = {
-  tracklist: [{ title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }, { title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }, { title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }],
+  tracklist: [{ title: 'Untitled', artist: 'aphyyd', collection: 'hello', apiKey: 'tracks/aphyyd/hello/Untitled.wav' }],
   trackIndex: 0,
   isPlaying: false,
   src: '/api/tracks/tracks/aphyyd/hello/Untitled.wav'

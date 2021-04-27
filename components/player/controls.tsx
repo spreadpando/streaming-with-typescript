@@ -25,12 +25,11 @@ interface IControlsProps {
   back: () => void
   skip: () => void
   togglePlay: () => void
-  stop: () => void
   isPlaying: boolean
   playhead: string
 }
 
-const Controls: React.FC = ({ back, skip, togglePlay, stop, isPlaying, playhead }: IControlsProps) => {
+const Controls: React.FC = ({ back, skip, togglePlay, isPlaying, playhead }: IControlsProps) => {
   return (
     <Panel>
         <BackButton
@@ -45,11 +44,6 @@ const Controls: React.FC = ({ back, skip, togglePlay, stop, isPlaying, playhead 
           { isPlaying
             ? <IoPauseCircleOutline />
             : <IoPlayCircleOutline />}
-        </Control>
-        <Control
-          id='app-stop-btn'
-          onClick={stop}>
-          <IoStopCircleOutline />
         </Control>
         <SkipButton
           id='app-ff-btn'

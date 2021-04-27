@@ -5,7 +5,7 @@ import Track from './track'
 
 const PlaylistFrame = styled('div')`
   position: absolute;
-  bottom: 20vh;
+  top: 10vh;
   padding: 16px;
   z-index: 1;
   height: fit-content;

@@ -28,7 +28,13 @@ const Btn = styled('span')`
   }
 `
 
-const Track: React.FC<ITrack> = ({ track, index, dragStart, dragEnter }) => {
+interface PlayItemProps {
+  track: ITrack
+  index: number
+
+}
+
+const PlayItem: React.FC = ({ track, index }: PlayItemProps) => {
   const tc = useContext(TrackContext)
 
   const handleSelect = (): void => {
@@ -58,4 +64,4 @@ const Track: React.FC<ITrack> = ({ track, index, dragStart, dragEnter }) => {
   )
 }
 
-export default Track
+export default PlayItem

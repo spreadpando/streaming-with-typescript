@@ -15,6 +15,10 @@ const Content = styled('ul')`
   z-index: 4;
   li {
     display: flex;
+    border-width: 0 0 1px 0;
+    padding: 3px 0;
+    border-color: #000;
+    border-style: solid;
   }
 `
 
@@ -39,11 +43,11 @@ const DragToReorderList: React.FC = ({ tracklist }: Track[]) => {
     setList(tracklist)
   }, [tracklist])
 
-  const handleDragStart = (e, position) => {
+  const handleDragStart = (e, position): void => {
     draggingItem.current = position
   }
 
-  const handleDragEnter = (e, position) => {
+  const handleDragEnter = (e, position): void => {
     dragOverItem.current = position
     const listCopy = [...list]
     const draggingItemContent = listCopy[draggingItem.current]
@@ -57,10 +61,10 @@ const DragToReorderList: React.FC = ({ tracklist }: Track[]) => {
 
   return (
     <Content>
-      <ul>
+      <ol>
       {list.map((track, index) => {
         return (
-          <>
+
             <li
               onDragStart={(e) => handleDragStart(e, index)}
               onDragOver={(e) => e.preventDefault()}
@@ -72,11 +76,9 @@ const DragToReorderList: React.FC = ({ tracklist }: Track[]) => {
               <PlayItem track={track}
               index={index} />
             </li>
-            <hr/>
-          </>
         )
       })}
-      </ul>
+      </ol>
     </Content>
   )
 }

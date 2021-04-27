@@ -1,5 +1,13 @@
 import React from 'react'
+import Link from 'next/link'
 import styled from '@emotion/styled'
+
+const NavContainer = styled('div')`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+`
 
 const MenuItem = styled('li')`
   display: inline-block;
@@ -13,20 +21,22 @@ const Brand = styled('h1')`
 
 const Nav: React.FC = () => {
   return (
-    <>
-    <Brand>aphyyd</Brand>
-    <ul>
-      <MenuItem>
-        code
-      </MenuItem>
-      <MenuItem>
-        music
-      </MenuItem>
-      <MenuItem>
-        contact
-      </MenuItem>
-    </ul>
-    </>
+    <NavContainer>
+      <Link href='/'>
+          <Brand>aphyyd</Brand>
+      </Link>
+      <ul>
+        <MenuItem>
+        <Link href='/code'><a>code</a></Link>
+        </MenuItem>
+        <MenuItem>
+        <Link href='/music'><a>music</a></Link>
+        </MenuItem>
+        <MenuItem>
+        <Link href='/contact'><a>contact</a></Link>
+        </MenuItem>
+      </ul>
+    </NavContainer>
   )
 }
 
