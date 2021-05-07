@@ -91,9 +91,6 @@ const Contact: React.FC = () => {
             : (
               <form
                 key='form'
-                initial={{ opacity: 1 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.3 } }}
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <div>
