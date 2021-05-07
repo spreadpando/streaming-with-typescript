@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from '@emotion/styled'
+import { NextApiResponse } from 'next'
 
 const FlexContainer = styled('div')`
   position: absolute;
@@ -69,7 +70,7 @@ interface Inputs {
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false)
   const { register, handleSubmit } = useForm<Inputs>()
-  const onSubmit: Promise<T> = async (data: Inputs) => {
+  const onSubmit: Promise<NextApiResponse> = async (data: Inputs) => {
     console.log('submitted')
     const res = await fetch('/api/contact', { // eslint-disable-line
       method: 'POST',
