@@ -62,11 +62,15 @@ const Container = styled('div')`
     width: 100%;
   }
 `
-
+interface Inputs {
+  name: string
+  email: string
+  message: string
+}
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false)
-  const { register, handleSubmit } = useForm()
-  const onSubmit: JSONType = async (data: {}) => {
+  const { register, handleSubmit } = useForm<Inputs>()
+  const onSubmit: Promise = async (data: Inputs) => {
     console.log('submitted')
     const res = await fetch('/api/contact', { // eslint-disable-line
       method: 'POST',
@@ -97,19 +101,19 @@ const Contact: React.FC = () => {
                   <label>
               name
                   </label>
-                  <input type='text' id='name' name='name' ref={register({ required: true })} />
+                  <input type='text' id='name' name='name' ref={register('name', { required: true })} />
                 </div>
                 <div>
                   <label>
               email
                   </label>
-                  <input type='email' id='email' name='email' ref={register({ required: true })} />
+                  <input type='email' id='email' name='email' ref={register('email', { required: true })} />
                 </div>
                 <div>
                   <label>
               message
                   </label>
-                  <textarea rows='4' id='comment' name='comment' ref={register()} />
+                  <textarea rows='4' id='comment' name='comment' ref={register('message')} />
                 </div>
                 <input type='submit' value='send' />
               </form>
