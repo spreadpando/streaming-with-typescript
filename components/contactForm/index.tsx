@@ -86,7 +86,7 @@ const Contact: React.FC = () => {
       <Container>
           {submitted
             ? (
-              <h2 key='head' initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 1, delay: 0.3 } }}>sent.</h2>
+              <h2 key='head'>sent.</h2>
               )
             : (
               <form
