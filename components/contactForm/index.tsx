@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from '@emotion/styled'
-import { NextApiResponse } from 'next'
 
 const FlexContainer = styled('div')`
   position: absolute;
