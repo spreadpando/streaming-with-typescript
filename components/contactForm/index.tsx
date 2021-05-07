@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from '@emotion/styled'
+import { JSONType } from 'aws-sdk/clients/s3'
 
 const FlexContainer = styled('div')`
   position: absolute;
@@ -62,10 +63,10 @@ const Container = styled('div')`
   }
 `
 
-const Contact = () => {
+const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false)
   const { register, handleSubmit } = useForm()
-  const onSubmit = async (data) => {
+  const onSubmit: JSONType = async (data: {}) => {
     console.log('submitted')
     const res = await fetch('/api/contact', { // eslint-disable-line
       method: 'POST',
