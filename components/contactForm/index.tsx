@@ -109,7 +109,7 @@ const Contact: React.FC = () => {
                   <label>
               message
                   </label>
-                  <textarea rows='4' id='comment' name='comment' {...register('message')} />
+                  <textarea rows={4} id='comment' name='comment' {...register('message')} />
                 </div>
                 <input type='submit' value='send' />
               </form>
