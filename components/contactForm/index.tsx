@@ -69,7 +69,7 @@ interface Inputs {
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false)
   const { register, handleSubmit } = useForm<Inputs>()
-  const onSubmit: Promise<void> = async (data: Inputs) => {
+  const onSubmit: () => Promise<void> = async (data: Inputs) => {
     console.log('submitted')
     const res = await fetch('/api/contact', { // eslint-disable-line
       method: 'POST',
