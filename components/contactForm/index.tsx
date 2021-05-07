@@ -91,7 +91,7 @@ const Contact: React.FC = () => {
             : (
               <form
                 key='form'
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(() => onSubmit)}
               >
                 <div>
                   <label>
