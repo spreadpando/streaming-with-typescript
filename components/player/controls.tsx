@@ -29,7 +29,7 @@ interface IControlsProps {
   playhead: string
 }
 
-const Controls: React.FC<IControlProps> = ({ back, skip, togglePlay, isPlaying, playhead }: IControlsProps) => {
+const Controls: React.FC<IControlsProps> = ({ back, skip, togglePlay, isPlaying, playhead }: IControlsProps) => {
   return (
     <Panel>
         <BackButton
