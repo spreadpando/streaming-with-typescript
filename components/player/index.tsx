@@ -6,6 +6,7 @@ import Timeline from './timeline'
 import Controls from './controls'
 import Tracklist from './tracklist'
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io'
+import { isNullOrUndefined } from 'util'
 
 const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   position: absolute;
@@ -141,8 +142,11 @@ const Player: React.FC = () => {
   }
 
   const seek = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, isClick: boolean): void => {
-    if (scrubActive || isClick) {
-      const position = e.clientX / scrubArea?.current?.getBoundingClientRect().width
+    if (
+      (scrubActive || isClick) &&
+      (scrubArea !== null || scrubArea !== undefined)
+    ) {
+      const position = e.clientX / scrubArea.current.getBoundingClientRect().width
       const percentage = 100 * position
       setElapsed(percentage)
       audio.currentTime = duration * position
