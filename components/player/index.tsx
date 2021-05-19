@@ -145,7 +145,7 @@ const Player: React.FC = () => {
       (scrubActive || isClick) &&
       (scrubArea !== null && scrubArea !== undefined)
     ) {
-      const position = e.clientX / scrubArea.current.getBoundingClientRect().width
+      const position = e.clientX / scrubArea?.current?.getBoundingClientRect().width
       const percentage = 100 * position
       setElapsed(percentage)
       audio.currentTime = duration * position
