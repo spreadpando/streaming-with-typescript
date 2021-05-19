@@ -4,7 +4,11 @@ import Nav from '../components/nav/'
 import ghListRepos from '../util/ghListRepos'
 import Repolist from '../components/repolist'
 
-const Code: React.FC = ({ repos }: []) => {
+export interface IRepoListProps {
+  repos: []
+}
+
+const Code: React.FC = ({ repos }: IRepoListProps) => {
   return (
     <>
       <Nav/>

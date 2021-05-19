@@ -33,7 +33,13 @@ const Indicator = styled('div')<{active: boolean}>`
   ${({ active }) => active ? 'display: block' : 'display: none;'}
 `
 
-const DragToReorderList: React.FC = ({ tracklist }: Track[]) => {
+interface ITracklistProps {
+  tracklist: Track[]
+}
+
+const DragToReorderList: React.FC<ITracklistProps> = ({
+  tracklist
+}: ITracklistProps) => {
   const draggingItem = useRef()
   const dragOverItem = useRef()
   const tc = useContext(TrackContext)

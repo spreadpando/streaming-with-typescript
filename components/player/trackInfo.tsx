@@ -22,7 +22,7 @@ interface ITrackInfoProps {
   collection?: string
 }
 
-const TrackInfo: React.FC = ({ name, artist, collection }: ITrackInfoProps) => {
+const TrackInfo: React.FC<ITrackInfoProps> = ({ name, artist, collection }: ITrackInfoProps) => {
   return (
     <Frame>
       <p>track: <span> {name}</span></p>

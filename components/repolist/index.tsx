@@ -14,11 +14,11 @@ const ReposContainer = styled('div')`
   }
 
 `
-interface IRepoListProps {
+export interface IRepoListProps {
   repos: []
 }
 
-const Repolist: React.FC = ({ repos }: IRepoListProps) => {
+const Repolist: React.FC<IRepoListProps> = ({ repos }: IRepoListProps) => {
   return (
     <ReposContainer>
       {repos.map((repo, i) =>

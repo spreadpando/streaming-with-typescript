@@ -34,7 +34,7 @@ interface PlayItemProps {
 
 }
 
-const PlayItem: React.FC = ({ track, index }: PlayItemProps) => {
+const PlayItem: React.FC<PlayItemProps> = ({ track, index }: PlayItemProps) => {
   const tc = useContext(TrackContext)
 
   const handleSelect = (): void => {

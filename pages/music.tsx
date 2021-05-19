@@ -6,7 +6,11 @@ import Playlist from '../components/playlist'
 import Nav from '../components/nav/'
 import { ITrack } from '../contexts/track'
 
-const Catalog: React.FC = ({ tracklist }: ITrack[]) => {
+interface ICatalogProps {
+  tracklist: ITrack[]
+}
+
+const Catalog: React.FC = ({ tracklist }: ICatalogProps) => {
   return (
     <>
       <Nav/>

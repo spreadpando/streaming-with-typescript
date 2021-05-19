@@ -25,7 +25,7 @@ interface IPlaylistProps {
   tracklist: ITrack[]
 }
 
-const Playlist: React.FC = ({ tracklist }: IPlaylistProps) => {
+const Playlist: React.FC<IPlayListProps> = ({ tracklist }: IPlaylistProps) => {
   return (
     <PlaylistFrame>
       {tracklist.map((track, i: number) => {

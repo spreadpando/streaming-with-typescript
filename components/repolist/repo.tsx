@@ -12,11 +12,11 @@ const Row = styled('div')`
   } 
 `
 
-interface RepoProps {
+interface IRepoProps {
   repo: {}
 }
 
-const Repo: React.FC = ({ repo }: RepoProps) => {
+const Repo: React.FC<IRepoProps> = ({ repo }: IRepoProps) => {
   return (
     <Row >
     <span style={{ textAlign: 'left' }}>

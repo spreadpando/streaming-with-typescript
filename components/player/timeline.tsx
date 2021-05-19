@@ -24,7 +24,7 @@ interface ITimelineProps {
   elapsed: number
 }
 
-const Timeline: React.FC = ({ setScrubActive, seek, elapsed }: ITimelineProps) => {
+const Timeline: React.FC<ITimelineProps> = ({ setScrubActive, seek, elapsed }: ITimelineProps) => {
   return (
   <Bar onMouseDown={() => setScrubActive(true)}
     onClick={(e) => seek(e, true)}>

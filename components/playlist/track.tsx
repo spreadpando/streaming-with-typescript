@@ -28,7 +28,7 @@ interface ITrackProps {
   track: ITrack
 }
 
-const Track: React.FC = ({ track }: ITrackProps) => {
+const Track: React.FC<ITrackProps> = ({ track }: ITrackProps) => {
   const tc = useContext(TrackContext)
 
   const handleSelect = (track): void => {
