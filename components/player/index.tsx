@@ -140,7 +140,7 @@ const Player: React.FC = () => {
     }
   }
 
-  const seek = (e, isClick: boolean): void => {
+  const seek = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, isClick: boolean): void => {
     if (scrubActive || isClick) {
       const position = e.clientX / scrubArea.current.getBoundingClientRect().width
       const percentage = 100 * position
