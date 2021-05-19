@@ -35,7 +35,7 @@ const ToggleOpen = styled('span')`
 `
 
 const Player: React.FC = () => {
-  const scrubArea = useRef<HTMLInputElement>(null)
+  const scrubArea = useRef<HTMLDivElement>(null)
   const tc = useContext(TrackContext)
   const [isOpen, setIsOpen] = useState(false)
   const [duration, setDuration] = useState(1)
