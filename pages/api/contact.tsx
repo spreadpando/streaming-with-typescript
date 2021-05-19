@@ -1,6 +1,7 @@
-const sgMail = require('@sendgrid/mail')
+import sgMail from '@sendgrid/mail'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
   return await new Promise(resolve => {
     const { name, email, comment } = JSON.parse(req.body)
     sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -16,7 +17,7 @@ export default async (req, res) => {
       return resolve()
     }).catch(err => {
       console.log(err)
-      if (err.response) {
+      if (err.response != null) {
       // Extract error msg
         const { message, code, response } = err
 
@@ -24,6 +25,7 @@ export default async (req, res) => {
         const { headers, body } = response
 
         console.error(body)
+        console.error(message, code, headers)
         res.status(500).send('failure')
         return resolve()
       }

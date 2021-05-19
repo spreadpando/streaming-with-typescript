@@ -24,7 +24,11 @@ const Btn = styled('span')`
 
 `
 
-const Track: React.FC<Itrack> = ({ track }) => {
+interface ITrackProps {
+  track: ITrack
+}
+
+const Track: React.FC = ({ track }: ITrackProps) => {
   const tc = useContext(TrackContext)
 
   const handleSelect = (track): void => {

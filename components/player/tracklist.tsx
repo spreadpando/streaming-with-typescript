@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import styled from '@emotion/styled'
 import PlayItem from './playItem'
-import TrackContext, { ITrack } from '../../contexts/track'
+import TrackContext from '../../contexts/track'
 
 const Content = styled('ul')`
   position: absolute;

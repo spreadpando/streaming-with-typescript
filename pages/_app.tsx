@@ -7,8 +7,7 @@ import { globalStyles } from '../styles/'
 const Player = dynamic(
   async () => await import('../components/player'),
   {
-    ssr: false,
-    loading: () => <p>...</p>
+    ssr: false
   }
 )
 

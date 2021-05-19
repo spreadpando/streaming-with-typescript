@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from '@emotion/styled'
 import TrackContext, { ITrack } from '../../contexts/track'
-import { IoPlayCircleOutline, IoListCircleOutline } from 'react-icons/io5'
+import { IoPlayCircleOutline } from 'react-icons/io5'
 import { GrDrag } from 'react-icons/gr'
 import { CgPlayListRemove } from 'react-icons/cg'
 

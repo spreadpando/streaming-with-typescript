@@ -4,10 +4,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-unused-vars': [
       'error',
-      {
-        vars: 'all',
-        varsIgnorePattern: '[I]\\w+'
-      }],
+      { vars: 'all' }],
     'no-void': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off'
   },

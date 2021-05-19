@@ -18,7 +18,13 @@ const Elapsed = styled('div') <{ elapsed: number }>`
   pointer-events: none;
 `
 
-const Timeline: React.FC = ({ setScrubActive, seek, elapsed }) => {
+interface ITimelineProps {
+  setScrubActive: React.Dispatch<React.SetStateAction<boolean>>
+  seek: (e: any, isClick: boolean) => void
+  elapsed: number
+}
+
+const Timeline: React.FC = ({ setScrubActive, seek, elapsed }: ITimelineProps) => {
   return (
   <Bar onMouseDown={() => setScrubActive(true)}
     onClick={(e) => seek(e, true)}>

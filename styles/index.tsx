@@ -10,8 +10,8 @@ export const globalStyles = (
       -webkit-user-select:none;
       -webkit-touch-callout: none;
       -khtml-user-select: none;
-       user-select:none;
-       box-sizing: border-box;
+      user-select:none;
+      box-sizing: border-box;
     }
       html,
       body, #__next {

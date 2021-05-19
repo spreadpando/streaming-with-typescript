@@ -2,7 +2,7 @@ import React from 'react'
 import ContactForm from '../components/contactForm'
 import Nav from '../components/nav'
 
-export default function Contact () {
+const Contact = (): React.FC => {
   return (
 
     <>
@@ -12,3 +12,5 @@ export default function Contact () {
 
   )
 }
+
+export default Contact

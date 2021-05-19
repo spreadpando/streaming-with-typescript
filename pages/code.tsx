@@ -1,7 +1,6 @@
 import React from 'react'
 import { GetServerSideProps } from 'next'
 import Nav from '../components/nav/'
-import { ITrack } from '../contexts/track'
 import ghListRepos from '../util/ghListRepos'
 import Repolist from '../components/repolist'
 
