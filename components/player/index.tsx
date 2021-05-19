@@ -6,7 +6,6 @@ import Timeline from './timeline'
 import Controls from './controls'
 import Tracklist from './tracklist'
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io'
-import { isNullOrUndefined } from 'util'
 
 const Container = styled('div')<{isOpen: boolean, playlistLength: number}>`
   position: absolute;
