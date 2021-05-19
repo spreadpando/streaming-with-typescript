@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { IoPlayCircleOutline, IoPauseCircleOutline, IoStopCircleOutline, IoPlaySkipForwardCircleOutline, IoPlaySkipBackCircleOutline } from 'react-icons/io5'
+import { IoPlayCircleOutline, IoPauseCircleOutline, IoPlaySkipForwardCircleOutline, IoPlaySkipBackCircleOutline } from 'react-icons/io5'
 
 const Panel = styled('div')`
   position: absolute;
